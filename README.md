@@ -69,13 +69,8 @@ You can also try it by putting the API key directly in your code.
 
 ### 4. Modify the API URL Function (if needed)
 
-If you are using another API provider than \`https://v6.exchangerate-api.com/v6/\`, make sure to modify the following function:
+If you are using another API provider than \`https://v6.exchangerate-api.com/v6/\`, make sure to modify the getURLString function:
 
-\`\`\`java
-private String getURLString(String convertFrom) {
-    return "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/" + convertFrom;
-}
-\`\`\`
 
 ### 5. Build and Run the Application
 
@@ -113,9 +108,6 @@ Compile and run the application using your IDE or command line.
 - **Select currencies**: Choose the source and target currencies from the dropdown menus.
 - **Convert**: Click the "Convert" button to perform the conversion and display the result.
 
-## License
-
-This project is licensed under the MIT License. See the \`LICENSE\` file for details.
 
 ## Contributing
 
