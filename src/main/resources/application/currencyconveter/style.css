@@ -1,0 +1,50 @@
+.bar{
+-fx-background-color: linear-gradient(to bottom right, #0982ae, #4f038e);
+}
+}
+.title{
+    -fx-text-fill: #fff;
+    -fx-border-color: #fff;
+    -fx-border-width: 0 1px 0 0 ;
+     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+.dollarSign{
+    -fx-text-fill: #fff;
+     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+
+.btn{
+    -fx-background-color: linear-gradient(to bottom right, #0daedf, #410279);
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 15px;
+}
+.btn:hover{
+    -fx-background-color: linear-gradient(to bottom right, #00c8ff, #740ad7);
+}
+.textfield{
+     -fx-background-color: transparent;
+     -fx-border-color: linear-gradient(to bottom right, #0daedf, #410279);
+     -fx-border-width: .6px;
+ }
+ .textfield:focused{
+     -fx-border-width: 1.2px;
+ }
+.bordered{
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: linear-gradient(to bottom right, #0daedf, #410279);
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+
+}
+.error-border {
+    -fx-border-color: linear-gradient(to bottom right, #ff0000, #ae0000);
+    -fx-border-width: 1.5;
+}
+.error-border:focused{
+-fx-border-width:2;
+}
