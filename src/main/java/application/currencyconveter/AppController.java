@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Objects;
 
 public class AppController {
 
@@ -25,8 +26,6 @@ public class AppController {
     private ComboBox<String> toComboBox;
     @FXML
     private ComboBox<String> fromComboBox;
-    private String convertFrom, convertTo,result,original;
-    private BigDecimal quantity;
     CurrencyConverter currencyConverter;
 
     @FXML
@@ -46,13 +45,13 @@ public class AppController {
     @FXML
     void onConvertButtonClick(ActionEvent event) throws IOException, InterruptedException {
         if (isValidInputs()) {
-            convertFrom=fromComboBox.getValue();
-            convertTo=toComboBox.getValue();
-            quantity=new BigDecimal(amountTextField.getText());
-            currencyConverter.setOperation(convertFrom,convertTo,quantity);
-            result=formatAsCurrency(currencyConverter.doOperation())+" "+convertTo;
+            String convertFrom = fromComboBox.getValue();
+            String convertTo = toComboBox.getValue();
+            BigDecimal quantity = new BigDecimal(amountTextField.getText());
+            currencyConverter.setOperation(convertFrom, convertTo, quantity);
+            String result = formatAsCurrency(currencyConverter.doOperation()) + " " + convertTo;
             resultLabel.setText(result);
-            original=formatAsCurrency(quantity)+" "+convertFrom;
+            String original = formatAsCurrency(quantity) + " " + convertFrom;
             originalLabel.setText(original);
             statusLabel.setText("");
         } else {
@@ -60,58 +59,47 @@ public class AppController {
             statusLabel.setText("Please enter valid inputs.");
         }
     }
-    boolean isValidInputs(){
+    private boolean isValidInputs(){
         boolean fromValid = isValidChoice(fromComboBox);
         boolean toValid = isValidChoice(toComboBox);
         boolean amountValid = isValidQuantity(amountTextField);
 
         return fromValid && toValid && amountValid;
     }
-    <T> boolean isValidChoice(ComboBox<T> comboBox) {
-        if (comboBox.getValue() == null) {
-            addErrorBorder(comboBox);
-            return false;
-        } else {
-            removeErrorBorder(comboBox);
-            return true;
-        }
+    private <T> boolean isValidChoice(ComboBox<T> comboBox) {
+        boolean valid = comboBox.getValue() != null;
+        setErrorBorder(comboBox, !valid);
+        return valid;
     }
 
-    boolean isValidQuantity(TextField textField) {
+    private boolean isValidQuantity(TextField textField) {
         String text = textField.getText();
-        if (text == null || text.trim().isEmpty()) {
-            addErrorBorder(textField);
-            return false;
-        }
+        boolean valid = text != null && !text.trim().isEmpty();
         try {
+            Objects.requireNonNull(text, "Text field value cannot be null");
             BigDecimal value = new BigDecimal(text);
-            if (value.compareTo(BigDecimal.ZERO) <= 0) {
-                addErrorBorder(textField);
-                return false;
+            valid = valid && value.compareTo(BigDecimal.ZERO) > 0;
+        } catch (NumberFormatException | NullPointerException e) {
+            valid = false;
+        }
+        setErrorBorder(textField, !valid);
+        return valid;
+    }
+
+    private void setErrorBorder(javafx.scene.Node node, boolean error) {
+        if (error) {
+            if (!node.getStyleClass().contains("error-border")) {
+                node.getStyleClass().add("error-border");
             }
-        } catch (NumberFormatException e) {
-            addErrorBorder(textField);
-            return false;
+        } else {
+            node.getStyleClass().remove("error-border");
         }
-        removeErrorBorder(textField);
-        return true;
-    }
-
-    private void addErrorBorder(javafx.scene.Node node) {
-        if (!node.getStyleClass().contains("error-border")) {
-            node.getStyleClass().add("error-border");
-        }
-    }
-
-    private void removeErrorBorder(javafx.scene.Node node) {
-        node.getStyleClass().remove("error-border");
-    }
-    public static String formatAsCurrency(BigDecimal amount) {
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-        return currencyFormatter.format(amount).substring(1);
     }
     private boolean isValidNumericInput(String input) {
         return input.matches("[0-9.]");
     }
-
+    private String formatAsCurrency(BigDecimal amount) {
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+        return currencyFormatter.format(amount).substring(1);
+    }
 }
