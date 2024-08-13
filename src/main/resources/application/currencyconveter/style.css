@@ -1,7 +1,7 @@
 .bar{
 -fx-background-color: linear-gradient(to bottom right, #0982ae, #4f038e);
 }
-}
+
 .title{
     -fx-text-fill: #fff;
     -fx-border-color: #fff;
