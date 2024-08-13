@@ -59,6 +59,15 @@ public class AppController {
             statusLabel.setText("Please enter valid inputs.");
         }
     }
+    @FXML
+    void onSwitchButtonClick(ActionEvent event) {
+        String currency1 = toComboBox.getValue();
+        String currency2 = fromComboBox.getValue();
+
+        // Swap the values
+        toComboBox.setValue(currency2);
+        fromComboBox.setValue(currency1);
+    }
 
     private boolean isValidInputs(){
         boolean fromValid = isValidChoice(fromComboBox);

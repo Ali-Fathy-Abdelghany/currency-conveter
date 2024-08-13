@@ -47,12 +47,41 @@
                         <TextField fx:id="amountTextField" alignment="CENTER" maxWidth="-Infinity" prefHeight="26.0" prefWidth="85.0" styleClass="textfield" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="306.0" prefWidth="125.0">
+                  <VBox alignment="CENTER" prefHeight="134.0" prefWidth="118.0">
                      <children>
                         <Label prefHeight="31.0" prefWidth="82.0" text="From" />
                         <ComboBox fx:id="fromComboBox" prefHeight="26.0" prefWidth="85.0" styleClass="textfield" />
                      </children>
                   </VBox>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSwitchButtonClick" prefHeight="31.0" prefWidth="37.0" styleClass="btn" stylesheets="@style.css" text="🔁">
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                              <Stop offset="0.006729475100942127">
+                                 <color>
+                                    <Color red="0.05098039284348488" green="0.6823529601097107" blue="0.8745098114013672" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="0.45490196347236633" green="0.03921568766236305" blue="0.843137264251709" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
                   <VBox alignment="CENTER" prefHeight="306.0" prefWidth="125.0">
                      <children>
                         <Label prefHeight="31.0" prefWidth="82.0" text="To" />
@@ -86,7 +115,7 @@
                   </Label>
                </children>
             </VBox>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onConvertButtonClick" prefHeight="34.0" prefWidth="86.0" styleClass="btn" stylesheets="@style.css" text="Convert">
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="432.0" layoutY="53.0" mnemonicParsing="false" onAction="#onConvertButtonClick" prefHeight="34.0" prefWidth="86.0" styleClass="btn" stylesheets="@style.css" text="Convert">
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
