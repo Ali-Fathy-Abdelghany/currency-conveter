@@ -32,7 +32,7 @@
  }
 .bordered{
     -fx-background-color: transparent;
-    -fx-padding: 0;
+
     -fx-border-color: linear-gradient(to bottom right, #0daedf, #410279);
     -fx-border-radius: 5px;
     -fx-border-width: 1px;
