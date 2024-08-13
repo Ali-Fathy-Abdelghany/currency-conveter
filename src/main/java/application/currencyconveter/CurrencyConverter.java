@@ -32,10 +32,18 @@ public class CurrencyConverter {
         this.quantity = quantity;
     }
 
+    public List<String> getCurrencyNames() throws IOException, InterruptedException {
+        if (cachedCurrencyNames == null) {
+            cachedCurrencyNames = extractCurrencyNames(getResponse(client, makeRequest(getURLString("USD"))));
+        }
+        return cachedCurrencyNames;
+    }
+
     private BigDecimal getExchangeRate(JSONObject jsonObject) {
         JSONObject ratesObject = jsonObject.getJSONObject("conversion_rates");
         return ratesObject.getBigDecimal(this.convertTo);
     }
+
     private JSONObject getCachedResponse(String convertFrom) throws IOException, InterruptedException {
         if (!responseCache.containsKey(convertFrom)) {
             String urlString = getURLString(convertFrom);
@@ -45,6 +53,7 @@ public class CurrencyConverter {
         }
         return responseCache.get(convertFrom);
     }
+
     private String getURLString(String convertFrom) {
         return "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/" + convertFrom;
     }
@@ -74,13 +83,6 @@ public class CurrencyConverter {
         currencies.removeAll(mostUsedCurrencies);
         currencies.addAll(0,mostUsedCurrencies);
         return currencies;
-    }
-
-    public List<String> getCurrencyNames() throws IOException, InterruptedException {
-        if (cachedCurrencyNames == null) {
-            cachedCurrencyNames = extractCurrencyNames(getResponse(client, makeRequest(getURLString("USD"))));
-        }
-        return cachedCurrencyNames;
     }
 
     private static String getApi_key() {

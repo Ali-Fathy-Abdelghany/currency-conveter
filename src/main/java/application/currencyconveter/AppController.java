@@ -59,6 +59,7 @@ public class AppController {
             statusLabel.setText("Please enter valid inputs.");
         }
     }
+
     private boolean isValidInputs(){
         boolean fromValid = isValidChoice(fromComboBox);
         boolean toValid = isValidChoice(toComboBox);
@@ -66,6 +67,7 @@ public class AppController {
 
         return fromValid && toValid && amountValid;
     }
+
     private <T> boolean isValidChoice(ComboBox<T> comboBox) {
         boolean valid = comboBox.getValue() != null;
         setErrorBorder(comboBox, !valid);
@@ -95,9 +97,11 @@ public class AppController {
             node.getStyleClass().remove("error-border");
         }
     }
+
     private boolean isValidNumericInput(String input) {
         return input.matches("[0-9.]");
     }
+
     private String formatAsCurrency(BigDecimal amount) {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
         return currencyFormatter.format(amount).substring(1);
