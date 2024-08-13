@@ -17,11 +17,11 @@ public class CurrencyConverter {
     private BigDecimal quantity;
     private List<String> cachedCurrencyNames;
     private final List<String> mostUsedCurrencies= Arrays.asList("USD", "EUR", "GBP", "CAD", "JPY", "EGP","CNY","INR");
+    private final Map<String, JSONObject> responseCache = new HashMap<>();
+
 
     public BigDecimal doOperation() throws IOException, InterruptedException {
-        String urlString = getURLString(convertFrom);
-        HttpRequest request = makeRequest(urlString);
-        JSONObject jsonObject = getResponse(client, request);
+        JSONObject jsonObject = getCachedResponse(convertFrom);
         BigDecimal exchangeRate = getExchangeRate(jsonObject);
         return exchangeRate.multiply(quantity);
     }
@@ -36,7 +36,15 @@ public class CurrencyConverter {
         JSONObject ratesObject = jsonObject.getJSONObject("conversion_rates");
         return ratesObject.getBigDecimal(this.convertTo);
     }
-
+    private JSONObject getCachedResponse(String convertFrom) throws IOException, InterruptedException {
+        if (!responseCache.containsKey(convertFrom)) {
+            String urlString = getURLString(convertFrom);
+            HttpRequest request = makeRequest(urlString);
+            JSONObject response = getResponse(client, request);
+            responseCache.put(convertFrom, response);
+        }
+        return responseCache.get(convertFrom);
+    }
     private String getURLString(String convertFrom) {
         return "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/" + convertFrom;
     }
@@ -54,18 +62,13 @@ public class CurrencyConverter {
         if (response.statusCode() != 200) {
             throw new IOException("Error fetching data: " + response.statusCode());
         }
-        String stringResponse = response.body();
-        return new JSONObject(stringResponse);
+        return new JSONObject(response.body());
 
     }
 
     private List<String> extractCurrencyNames(JSONObject jsonObject) {
         JSONObject conversionRates = jsonObject.getJSONObject("conversion_rates");
-        Iterator<String> keys = conversionRates.keys();
-        List<String> currencies = new ArrayList<>();
-        while (keys.hasNext()) {
-            currencies.add(keys.next());
-        }
+        List<String> currencies = new ArrayList<>(conversionRates.keySet());
 
         Collections.sort(currencies);
         currencies.removeAll(mostUsedCurrencies);
